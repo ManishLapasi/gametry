@@ -7,50 +7,47 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext("2d");
 canvas.width = vars.canvasWidth
 canvas.height = vars.canvasHeight
-console.log(c)
 
-console.log(vars.offset)
+const mapImage = vars.mapImage
 
-console.log(vars.tileSize)
+const fgImage = vars.fgImage
 
-const mapImage = new Image()
-mapImage.src = './img/MapAsset2.png'
+const playerDownImage = vars.playerDownImage
 
-const playerImage = new Image()
-playerImage.src = './img/playerDown.png'
+const playerUpImage = vars.playerUpImage
 
-console.log(collisionArray)
+const playerLeftImage = vars.playerLeftImage
+
+const playerRightImage = vars.playerRightImage
 
 const background = new classDefs.BackgroundSprite({
     position:vars.offset,
     image: mapImage
 })
 
-console.log(background)
+const foreground = new classDefs.BackgroundSprite({
+    position:vars.offset,
+    image: fgImage
+})
 
 const player = new classDefs.PlayerSprite({
     position:{
-        x:vars.canvasWidth/2 + 100,
-        y:vars.canvasHeight/2 - 10
+        x: vars.offset.x + 10,
+        y: vars.offset.y + 10
     },
     cropIndex:vars.cropIndex,
-    image: playerImage
+    frame: 0,
+    image: playerDownImage
 })
-
-console.log(player)
 
 const collisionsMap = functionDefs.formCollisionsMap(collisionArray, vars.mapWidth)
 
-console.log(collisionsMap)
-
 const boundaries = functionDefs.formBoundaryTileMap(collisionsMap, vars.offset, classDefs.Boundary)
-
-console.log(boundaries)
 
 var keys = vars.keys
 var lastkey = vars.lastkey
 
-const movables = [background, ...boundaries]
+const movables = [player]
 
 function collision({rectangle1, rectangle2}){
     var val = (
@@ -66,18 +63,23 @@ function collision({rectangle1, rectangle2}){
     return val
 }
 
+function checkMapBoundaryCollision(player, delX, delY, xMax, yMax){
+    return ((player.position.x + delX ) > 0 && (player.position.x + 4*delX ) < xMax &&
+            (player.position.y + delY ) > 0 && (player.position.y + 4*delY ) < yMax)
+}
+
 function setMovement(boundaries, player, delX, delY){
     for(let i=0;i<boundaries.length;i++){
         var boundary = boundaries[i]
-            if(collision({rectangle1:player, rectangle2: {...boundary,position:{
-                x: boundary.position.x + delX,
-                y: boundary.position.y + delY
+            if(collision({rectangle1:boundary, rectangle2: {...player,position:{
+                x: player.position.x + delX,
+                y: player.position.y + delY
             }}})){
                 console.log("colliding")
                 return false
             }
     }
-    return true
+    return checkMapBoundaryCollision(player, delX, delY, vars.canvasWidth, vars.canvasHeight)
 }
 
 function animate(){
@@ -87,43 +89,52 @@ function animate(){
         boundary.render(c)
     })
     player.render(c)
+    foreground.render(c)
     let moving = true
-    if (keys.ArrowDown.pressed && keys.lastKey=='ArrowDown') {
-        moving = setMovement(boundaries, player, 0, -vars.movementSize)
-        console.log(keys.lastKey, moving)
-        if(moving){
-            movables.forEach(movable => {
-                movable.position.y -= vars.movementSize
-            })
-        }
-    }
-    if (keys.ArrowUp.pressed && keys.lastKey=='ArrowUp') {
-        moving = setMovement(boundaries, player, 0, vars.movementSize)
-        console.log(keys.lastKey, moving)
+    if (keys.ArrowDown.pressed && lastkey=='ArrowDown') {
+        moving = setMovement(boundaries, player, 0, +vars.movementSize)
+        player.frame = (player.frame+1)%4
+        player.image = playerDownImage
         if(moving){
             movables.forEach(movable => {
                 movable.position.y += vars.movementSize
             })
         }
     }
-    if (keys.ArrowRight.pressed && keys.lastKey=='ArrowRight') {
-        moving = setMovement(boundaries, player, -vars.movementSize, 0)
-        console.log(keys.lastKey, moving)
+    else if (keys.ArrowUp.pressed && lastkey=='ArrowUp') {
+        moving = setMovement(boundaries, player, 0, -vars.movementSize)
+        player.frame = (player.frame+1)%4
+        player.image = playerUpImage
         if(moving){
             movables.forEach(movable => {
-                movable.position.x -= vars.movementSize
+                movable.position.y -= vars.movementSize
             })
         }
     }
-    if (keys.ArrowLeft.pressed && keys.lastKey=='ArrowLeft') {
+    else if (keys.ArrowRight.pressed && lastkey=='ArrowRight') {
         moving = setMovement(boundaries, player, +vars.movementSize, 0)
-        console.log(keys.lastKey, moving)
-        if(moving){
+        player.frame = (player.frame+1)%4
+        player.image = playerRightImage
+            if(moving){
             movables.forEach(movable => {
                 movable.position.x += vars.movementSize
             })
         }
     }
+    else if (keys.ArrowLeft.pressed && lastkey=='ArrowLeft') {
+        moving = setMovement(boundaries, player, -vars.movementSize, 0)
+        player.frame = (player.frame+1)%4
+        player.image = playerLeftImage
+            if(moving){
+            movables.forEach(movable => {
+                movable.position.x -= vars.movementSize
+            })
+        }
+    }
+    else{
+        player.frame = 0
+    }
+
 }
 
 animate()

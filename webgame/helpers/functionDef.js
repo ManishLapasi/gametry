@@ -17,7 +17,7 @@ export function formBoundaryTileMap(collisionsMap, offset, Boundary){
         (row,i) => {
             row.forEach(
                 (symbol,j) => {
-                    if(symbol===767){
+                    if(symbol===7873){
                         boundaries.push(
                             new Boundary({
                                 position: {
@@ -37,28 +37,29 @@ export function formBoundaryTileMap(collisionsMap, offset, Boundary){
 // update keys when they are pressed and unpressed
 
 export function updateKeyStates(keys, lastkey, e, boolVal) {
+    console.log(e.key) 
     switch (e.key) {
         case 'ArrowDown':
             if (boolVal){
-                keys.lastKey = 'ArrowDown'
+                lastkey = 'ArrowDown'
             }
             keys.ArrowDown.pressed = boolVal
             break;
         case 'ArrowLeft':
             if (boolVal){
-                keys.lastKey = 'ArrowLeft'
+                lastkey = 'ArrowLeft'
             }
             keys.ArrowLeft.pressed = boolVal
             break;
         case 'ArrowRight':
             if (boolVal){
-                keys.lastKey = 'ArrowRight'
+                lastkey = 'ArrowRight'
             }
             keys.ArrowRight.pressed = boolVal
             break;
         case 'ArrowUp':
             if (boolVal){
-                keys.lastKey = 'ArrowUp'
+                lastkey = 'ArrowUp'
             }
             keys.ArrowUp.pressed = boolVal
             break;    

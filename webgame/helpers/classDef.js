@@ -1,17 +1,17 @@
 // Boundary tile
 
 export class Boundary {
-    static width = 40
-    static height = 40
+    static width = 16
+    static height = 16
     
     constructor({position}){
         this.position = position
-        this.width = 32
-        this.height = 32
+        this.width = 16
+        this.height = 16
     }
 
     render(canvasObj){
-        canvasObj.fillStyle = 'red'
+        canvasObj.fillStyle = 'rgba(255,0,0,0.1)'
         canvasObj.fillRect(this.position.x,this.position.y,this.width,this.height)
         //console.log("rendered boundary")
     }
@@ -38,11 +38,11 @@ export class BackgroundSprite {
 // Player object
 
 export class PlayerSprite {
-    constructor({position, cropIndex, image, frames = {max:1}}){
+    constructor({position, cropIndex, image, frame}){
         this.position = position
         this.cropIndex = cropIndex
         this.image = image
-        this.frames = frames
+        this.frame = frame%4
         this.image.onload = () => {
             this.width = this.cropIndex.dw
             this.height = this.cropIndex.dh
@@ -52,13 +52,13 @@ export class PlayerSprite {
     render(canvasObj){
         canvasObj.drawImage(
             this.image,
-            this.cropIndex.sx,
+            this.cropIndex.sx + this.cropIndex.sw*this.frame,
             this.cropIndex.sy,
-            this.cropIndex.sw / this.frames.max,
+            this.cropIndex.sw,
             this.cropIndex.sh,
             this.position.x,
             this.position.y,
-            this.cropIndex.dw / this.frames.max,
+            this.cropIndex.dw,
             this.cropIndex.dh
         )
         //console.log("rendered player")
