@@ -110,6 +110,7 @@ function animate(){
     if(player.image == playerRightImage){
         var nextArea = functionDefs.checkNextArea(player.position,nextAreas,vars.tileSize)
         if(nextArea) console.log("next Area tile")
+        
     }
 }
 
