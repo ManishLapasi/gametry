@@ -128,6 +128,8 @@ export function updateKeyStates(keys, lastkey, e, boolVal) {
             }
             keys.ArrowUp.pressed = boolVal
             break;    
+        case 'Enter':
+            lastkey = 'Enter'
         default:
             console.log(e.key)    
         break;

@@ -109,8 +109,11 @@ function animate(){
     }
     if(player.image == playerRightImage){
         var nextArea = functionDefs.checkNextArea(player.position,nextAreas,vars.tileSize)
-        if(nextArea) console.log("next Area tile")
-        
+        if(nextArea && lastkey=='Enter') {
+            console.log("next Area tile")
+            player.position.x = vars.tileSize
+            background.image = mapImage
+        }        
     }
 }
 
