@@ -8,26 +8,14 @@ const c = canvas.getContext("2d");
 canvas.width = vars.canvasWidth
 canvas.height = vars.canvasHeight
 
-const mapImage = vars.mapImage
-
-const fgImage = vars.fgImage
-
-const playerDownImage = vars.playerDownImage
-
-const playerUpImage = vars.playerUpImage
-
-const playerLeftImage = vars.playerLeftImage
-
-const playerRightImage = vars.playerRightImage
-
 const background = new classDefs.BackgroundSprite({
     position:vars.offset,
-    image: mapImage
+    image: vars.mapImage
 })
 
 const foreground = new classDefs.BackgroundSprite({
     position:vars.offset,
-    image: fgImage
+    image: vars.fgImage
 })
 
 const player = new classDefs.PlayerSprite({
@@ -37,7 +25,7 @@ const player = new classDefs.PlayerSprite({
     },
     cropIndex:vars.cropIndex,
     frame: 0,
-    image: playerDownImage
+    image: vars.playerDownImage
 })
 
 const collisionsMap = functionDefs.formCollisionsMap(collisionArray, vars.mapWidth)
@@ -67,7 +55,7 @@ function animate(){
     if (keys.ArrowDown.pressed && lastkey=='ArrowDown') {
         moving = functionDefs.setMovement(boundaries, player, 0, +vars.movementSize, vars.canvasWidth, vars.canvasHeight)
         if(keys.ArrowDown.count%vars.framerate==0) player.frame = (player.frame+1)%4
-        player.image = playerDownImage
+        player.image = vars.playerDownImage
         if(moving){
             movables.forEach(movable => {
                 movable.position.y += vars.movementSize
@@ -77,7 +65,7 @@ function animate(){
     else if (keys.ArrowUp.pressed && lastkey=='ArrowUp') {
         moving = functionDefs.setMovement(boundaries, player, 0, -vars.movementSize, vars.canvasWidth, vars.canvasHeight)
         if(keys.ArrowUp.count%vars.framerate==0) player.frame = (player.frame+1)%4
-        player.image = playerUpImage
+        player.image = vars.playerUpImage
         if(moving){
             movables.forEach(movable => {
                 movable.position.y -= vars.movementSize
@@ -87,7 +75,7 @@ function animate(){
     else if (keys.ArrowRight.pressed && lastkey=='ArrowRight') {
         moving = functionDefs.setMovement(boundaries, player, +vars.movementSize, 0, vars.canvasWidth, vars.canvasHeight)
         if(keys.ArrowRight.count%vars.framerate==0) player.frame = (player.frame+1)%4
-        player.image = playerRightImage
+        player.image = vars.playerRightImage
             if(moving){
             movables.forEach(movable => {
                 movable.position.x += vars.movementSize
@@ -97,7 +85,7 @@ function animate(){
     else if (keys.ArrowLeft.pressed && lastkey=='ArrowLeft') {
         moving = functionDefs.setMovement(boundaries, player, -vars.movementSize, 0, vars.canvasWidth, vars.canvasHeight)
         if(keys.ArrowLeft.count%vars.framerate==0) player.frame = (player.frame+1)%4
-        player.image = playerLeftImage
+        player.image = vars.playerLeftImage
             if(moving){
             movables.forEach(movable => {
                 movable.position.x -= vars.movementSize
@@ -107,12 +95,12 @@ function animate(){
     else{
         player.frame = 0
     }
-    if(player.image == playerRightImage){
+    if(player.image == vars.playerRightImage){
         var nextArea = functionDefs.checkNextArea(player.position,nextAreas,vars.tileSize)
         if(nextArea && lastkey=='Enter') {
             console.log("next Area tile")
             player.position.x = vars.tileSize
-            background.image = mapImage
+            background.image = vars.mapImage
         }        
     }
 }
