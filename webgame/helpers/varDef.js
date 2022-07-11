@@ -5,7 +5,8 @@ export const mapWidth = 80
 export const mapHeight = 50
 
 export const tileSize = 16
-export const movementSize = 10
+export const movementSize = 3
+export const framerate = 3
 
 export const canvasWidth = mapWidth*tileSize
 export const canvasHeight = mapHeight*tileSize
@@ -26,16 +27,20 @@ export const cropIndex = {
 
 export var keys = {
     ArrowUp: {
-        pressed: false
+        pressed: false,
+        count: 0
     },
     ArrowDown: {
-        pressed: false
+        pressed: false,
+        count: 0
     },
     ArrowLeft: {
-        pressed: false
+        pressed: false,
+        count: 0
     },
     ArrowRight: {
-        pressed: false
+        pressed: false,
+        count: 0
     }
 }
 
