@@ -1,10 +1,17 @@
-<style>
-    body {
-        background-color: black;
-    }
-</style>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-<canvas></canvas>
+<canvas style="width: 80%; height:80%"></canvas>
+<div id="textBox">
+    <div id="menu" style="width: 66.67%; display:grid; grid-template-columns: repeat(2, 1fr);">
+        <button id="menuButtons">Menu</button>
+        <button id="menuButtons">Menu2</button>
+    </div>
+    <div style="width: 33.33%;">
+        <h1 style="display: none;">Hello</h1>
+    </div>
+</div>
 <script>var exports = {};</script>
 <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 <script type="module" src="layersData/interactionTilesArray.js"></script>

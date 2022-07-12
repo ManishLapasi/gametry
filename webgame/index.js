@@ -114,3 +114,17 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     [keys, lastkey] = functionDefs.updateKeyStates(keys,lastkey,e,false)
 })
+
+window.addEventListener('keypress', (e) => {
+    if(e.key=="Enter"){
+        var content = document.getElementById("textBox")
+        if (content.style.display=="none") {
+            console.log("set to block")
+            document.getElementById("textBox").style.display="block"
+        }
+        else {
+            console.log("set to none")
+            document.getElementById("textBox").style.display="none"
+        }
+    }
+})

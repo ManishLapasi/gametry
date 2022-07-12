@@ -52,7 +52,6 @@ export function collision({rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y &&
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height
     )
-    console.log(val)
     if(val){
         console.log(rectangle1, rectangle2, "collision")
     }
@@ -78,7 +77,6 @@ export function setMovement(boundaries, player, delX, delY, cw, ch){
 // update keys when they are pressed and unpressed
 
 export function updateKeyStates(keys, lastkey, e, boolVal) {
-    console.log(e.key) 
     switch (e.key) {
         case 'ArrowDown':
             if(lastkey == 'ArrowDown'){
@@ -127,11 +125,10 @@ export function updateKeyStates(keys, lastkey, e, boolVal) {
                 lastkey = 'ArrowUp'
             }
             keys.ArrowUp.pressed = boolVal
-            break;    
-        case 'Enter':
-            lastkey = 'Enter'
+            break; 
         default:
-            console.log(e.key)    
+            lastkey = e.key
+            //console.log(e.key)    
         break;
     }
     return [keys, lastkey]
